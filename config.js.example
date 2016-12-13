@@ -1,0 +1,6 @@
+module.exports = {
+	dateTogether: '2016-01-01',
+	brokerUrl: 'mqtts://broker.example.com:8883',
+	brokerUsername: 'username',
+	brokerPassword: 'password'
+}

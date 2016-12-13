@@ -1,0 +1,41 @@
+<div class="container">
+	<div class="header clearfix">
+		<nav>
+			<ul class="nav nav-pills pull-right">
+				<li role="presentation" {{#if isPoyu}}class="active"{{/if}}><a href="/poyu">Poyu</a></li>
+				<li role="presentation" {{#if isCeleste}}class="active"{{/if}}><a href="/celeste">Celeste</a></li>
+			</ul>
+		</nav>
+		<h3 class="text-muted">Message Me</h3>
+	</div>
+
+	<div class="row marketing">
+		<p class="lead">You are sending a message to <u class="text-capitalize">{{dest}}</u>...</p>
+		<p>The last message sent to <u class="text-capitalize">{{dest}}</u> was:</p>
+		<blockquote>
+			{{ msg.msg }}
+			<footer>{{ sent_time }} <br><em>Time sent is represented in the sender's local time</em></footer>
+		</blockquote>
+		<label for="message" class="control-label">Type your message below to send</label>
+		<textarea class="form-control" id="message" rows="3" placeholder="Message to Send" v-model="msg"></textarea>
+		<br>
+		<button type="button" class="btn btn-primary btn-lg" @click="send_msg('{{dest}}')" :disabled="msg == ''">Send</button>
+
+		<div style="margin-top: 20px;">
+			<div v-if="msg_success" class="alert alert-success alert-dismissible" role="alert">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				Message sent success!
+			</div>
+
+			<div v-if="msg_failed" class="alert alert-danger alert-dismissible" role="alert">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				Message failed to send... <br>Error: {{{{raw-helper}}}} {{ msg_error }} {{{{/raw-helper}}}}
+			</div>
+		</div>
+		
+	</div>
+
+	<footer class="footer">
+		<p>&copy; 2016 Poyu Chen</p>
+	</footer>
+</div>
