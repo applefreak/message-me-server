@@ -2,6 +2,7 @@ var URL = require('url');
 var mqtt = require('mqtt');
 var days = require('./days');
 var config = require('../config');
+var messages = require('./messages');
 
 var broker = URL.parse(config.brokerUrl);
 var url = "mqtts://" + broker.host;
@@ -30,10 +31,19 @@ client.on('connect', function() {
 
 client.on('message', function(topic, message, packet) {
 	var msg = message.toString();
-	if (topic == 'request' && msg == 'days') {
-		client.publish('days', days.getDaysTogether(), {qos: 0, retain: false}, function (err) {
-			console.log('Sent days!');
-		});
+	if (topic == 'request') {
+		if (msg == 'days') {
+			client.publish('days', days.getDaysTogether(), {qos: 0, retain: false}, function (err) {
+				console.log('Sent days!');
+			});
+		} else if (msg == 'celeste' || msg == 'poyu') {
+			messages.latest(msg, function(latest) {
+				client.publish(msg, latest.msg, {qos: 0, retain: false}, function (err) {
+					console.log('Sent latest!');
+				});
+			});
+		}
+		
 	}
 });
 
